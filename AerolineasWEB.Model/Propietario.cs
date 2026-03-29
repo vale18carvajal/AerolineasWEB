@@ -10,6 +10,8 @@ namespace AerolineasWEB.Model
     {
         [Key]
         public int id_propietario;
+        [Required(ErrorMessage = "El campo identificación es obligatorio")]
+        public string identificacion;
         [Required(ErrorMessage = "El campo nombre es obligatorio")]
         public string nombre;
         [Required(ErrorMessage = "El campo tipo es obligatorio")]

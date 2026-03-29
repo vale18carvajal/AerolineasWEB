@@ -9,8 +9,8 @@ namespace AerolineasWEB.DA
         { 
         }
 
-        public DbSet<Model.Aerolinea> aerolinea { get; set;}
-        public DbSet<Model.Avion> avion { get; set; }
-        public DbSet<Model.Propietario> propietario { get; set; }
+        public DbSet<Model.Aerolinea> Aerolinea { get; set;}
+        public DbSet<Model.Avion> Avion { get; set; }
+        public DbSet<Model.Propietario> Propietario { get; set; }
     }
 }

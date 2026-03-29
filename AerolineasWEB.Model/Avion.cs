@@ -11,6 +11,9 @@ namespace AerolineasWEB.Model
         [Key]
         public int id_avion {  get; set; }
 
+        [Required(ErrorMessage = "El campo matricula es obligatorio")]
+        public string matricula { get; set; }
+
         [Required(ErrorMessage = "El campo modelo es obligatorio")]
         public string modelo { get; set; }
 
@@ -29,5 +32,9 @@ namespace AerolineasWEB.Model
 
         [Required(ErrorMessage = "El campo propietario es obligatorio")]
         public int id_propietario { get; set; }
+
+        //Atributos para indicar la relación, no son parte de la entidad, sirven para hacer consultas tipo JOINS con EF
+        public Aerolinea? aerolinea { get; set; } //Acepta valores null
+        public Propietario? propietario { get; set; } //Acepta valores null
     }
 }
