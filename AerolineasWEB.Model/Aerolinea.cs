@@ -20,6 +20,8 @@ namespace AerolineasWEB.Model
 
         [Required(ErrorMessage = "El campo fecha fundación es obligatorio")]
         public DateTime fecha_fundacion { set; get; }
+        [Required(ErrorMessage = "El campo teléfono es obligatorio")]
+        public string telefono { set; get; }
         public EstadoAerolinea estado { set; get;}
     }
 }

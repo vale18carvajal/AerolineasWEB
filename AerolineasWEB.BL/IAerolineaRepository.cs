@@ -6,7 +6,7 @@ namespace AerolineasWEB.BL
     {
         Task<IEnumerable<Aerolinea>> obtenerAerolineasActivasAsync();
         Task<Aerolinea> obtenerPorIdAsync(int id);
-        Task<Aerolinea> obtenerPorIdentificacionAsync(string identificacion);
+        Task<Aerolinea> obtenerPorIataAsync(string codigo_iata);
         Task<Aerolinea> obtenerPorNombreAsync(string nombre);
         Task<Aerolinea> obtenerPorTelefonoAsync(string telefono);
         Task crearAsync(Aerolinea aerolinea);
