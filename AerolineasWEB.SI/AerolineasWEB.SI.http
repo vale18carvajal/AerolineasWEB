@@ -1,0 +1,6 @@
+@AerolineasWEB.SI_HostAddress = http://localhost:5240
+
+GET {{AerolineasWEB.SI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
