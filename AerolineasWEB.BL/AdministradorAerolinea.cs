@@ -8,6 +8,7 @@ Reglas de Aerolínea
     -No se pueden editar aerolíneas inactivas.
     -IATA debe tener mínimo 2 caracteres al agregar y editar aerolínea
     -No se edita estado en la función de editar
+    -Al agregar aerolínea, siempre es activa.
 ----------------------------------------------------------------------------------------------------------------*/
 using AerolineasWEB.Model;
 
@@ -112,6 +113,7 @@ namespace AerolineasWEB.BL
 
             aerolinea.nombre = aerolinea.nombre.Trim();
             aerolinea.codigo_iata = aerolinea.codigo_iata.Trim().ToUpper();
+            aerolinea.estado = EstadoAerolinea.Activo;
 
             await _aerolineaRepository.crearAsync(aerolinea);
         }

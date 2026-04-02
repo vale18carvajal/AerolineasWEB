@@ -5,6 +5,7 @@ Reglas de Avión
     -Año válido que no sea mayor a la fecha actual en crear y editar avión.
     -No se pueden editar aviones inactivos.
     -No se edita estado en la función de editar
+    -Al agregar avión, siempre es activo.
 ----------------------------------------------------------------------------------------------------------------*/
 
 using AerolineasWEB.Model;
@@ -110,6 +111,7 @@ namespace AerolineasWEB.BL
 
             avion.matricula = avion.matricula.Trim().ToUpper();
             avion.modelo = avion.modelo.Trim().ToUpper();
+            avion.estado = EstadoAvion.Activo;
 
             await _avionRepository.crearAsync(avion);
 

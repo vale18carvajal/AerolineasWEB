@@ -4,11 +4,12 @@ Reglas de Propietario
     (PENDIENTE)Regla al desactivar (eliminar): no se puede desactivar un propietario si tiene aviones activos.
     -Normalizar datos de nombre: quitar espacios en blanco con Trim.
     -No se pueden editar propietarios inactivos.
-    -No se edita estado en la función de editar 
+    -No se edita estado en la función de editar
+    -Al agregar propietario, siempre es activo.
 ----------------------------------------------------------------------------------------------------------------*/
 
 using AerolineasWEB.Model;
-using System;
+
 
 namespace AerolineasWEB.BL
 {
@@ -84,6 +85,7 @@ namespace AerolineasWEB.BL
             }
 
             propietario.nombre = propietario.nombre.Trim();
+            propietario.estado = EstadoPropietario.Activo;
 
             await _propietarioRepository.crearAsync(propietario);
         }
