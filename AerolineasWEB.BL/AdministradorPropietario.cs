@@ -1,7 +1,7 @@
 ﻿/*----------------------------------------------------------------------------------------------------------------
 Reglas de Propietario
     -Identificación única al guardar y editar un propietario
-    (PENDIENTE)Regla al desactivar (eliminar): no se puede desactivar un propietario si tiene aviones activos.
+    -Regla al desactivar (eliminar): no se puede desactivar un propietario si tiene aviones activos.
     -Normalizar datos de nombre: quitar espacios en blanco con Trim.
     -No se pueden editar propietarios inactivos.
     -No se edita estado en la función de editar
@@ -16,15 +16,22 @@ namespace AerolineasWEB.BL
     public class AdministradorPropietario : IAdministradorPropietario
     {
         private readonly IPropietarioRepository _propietarioRepository;
+        private readonly IAvionRepository _avionRepository;
 
-        public AdministradorPropietario(IPropietarioRepository propietarioRepository)
+        public AdministradorPropietario(IPropietarioRepository propietarioRepository, IAvionRepository avionRepository)
         {
             _propietarioRepository = propietarioRepository;
+            _avionRepository = avionRepository;
         }
 
-        public Task DesactivarPropietarioAsync(int id)
+        public async Task DesactivarPropietarioAsync(int id)
         {
-            throw new NotImplementedException();
+            var tieneAviones = await _avionRepository.ExistenAvionesActivosPorPropietario(id);
+            if (tieneAviones)
+            {
+                throw new ReglaNegocioException("Error", "No se puede eliminar propietario porque tiene aviones activos.");
+            }
+            await _propietarioRepository.desactivarAsync(id);
         }
 
         public async Task EditarPropietarioAsync(Propietario propietario)
@@ -41,7 +48,7 @@ namespace AerolineasWEB.BL
             }
 
             var existente = await _propietarioRepository.obtenerPorIdentificacionPropietarioAsync(propietario.identificacion);
-            if (existente != null)
+            if (existente != null && existente.id_propietario != propietario.id_propietario)
             {
                 throw new ReglaNegocioException("Error", "Ya existe un propietario con la identificación ingresada.");
             }
@@ -54,26 +61,28 @@ namespace AerolineasWEB.BL
             propietarioEditar.pais = propietario.pais;
             propietarioEditar.telefono = propietario.telefono;
             propietarioEditar.correo = propietario.correo;
+
+            await _propietarioRepository.editarAsync(propietarioEditar);
         }
 
-        public Task<IEnumerable<Propietario>> ObtenerListaPropietariosActivosAsync()
+        public async Task<IEnumerable<Propietario>> ObtenerListaPropietariosActivosAsync()
         {
-            throw new NotImplementedException();
+            return await _propietarioRepository.obtenerPropietariosActivosAsync();
         }
 
-        public Task<Propietario> ObtenerPorIdentificacionAsync(string identificacion)
+        public async Task<Propietario> ObtenerPorIdentificacionAsync(string identificacion)
         {
-            throw new NotImplementedException();
+            return await _propietarioRepository.obtenerPorIdentificacionPropietarioAsync(identificacion);
         }
 
-        public Task<IEnumerable<Propietario>> ObtenerPorNombreAsync(string nombre)
+        public async Task<IEnumerable<Propietario>> ObtenerPorNombreAsync(string nombre)
         {
-            throw new NotImplementedException();
+            return await _propietarioRepository.obtenerPorNombreAsync(nombre);
         }
 
-        public Task<Propietario> ObtenerPropietarioAsync(int id)
+        public async Task<Propietario> ObtenerPropietarioAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _propietarioRepository.obtenerPorIdAsync(id);
         }
 
         public async Task RegistrarPropietarioAsync(Propietario propietario)

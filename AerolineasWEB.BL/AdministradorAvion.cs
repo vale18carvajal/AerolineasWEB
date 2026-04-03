@@ -1,6 +1,6 @@
 ﻿/*----------------------------------------------------------------------------------------------------------------
 Reglas de Avión
-    [PENDIENTE) Matrícula única al editar y agregar
+    -Matrícula única al editar y agregar
     -Normalizar datos con Trim y Upper case en modelo, matrícula al agregar y editar
     -Año válido que no sea mayor a la fecha actual en crear y editar avión.
     -No se pueden editar aviones inactivos.
@@ -28,6 +28,9 @@ namespace AerolineasWEB.BL
 
         public async Task EditarAvionAsync(Avion avion)
         {
+            avion.matricula = avion.matricula.Trim().ToUpper();
+            avion.modelo = avion.modelo.Trim().ToUpper();
+
             Avion avionEditar = await _avionRepository.obtenerPorIdAsync(avion.id_avion);
             if (avionEditar == null)
             {
@@ -39,11 +42,11 @@ namespace AerolineasWEB.BL
                 throw new ReglaNegocioException("Error", "No se pueden editar aviones inactivos.");
             }
 
-            /*var existente = await _avionRepository.obtenerPorMatricula(avion.matricula);
-            if (existente != null && existente.id_avion != aerolineaEditar.id_avion) //Se valida que no sea otro avión al que estamos editando con el mismo IATA
+            var existente = await _avionRepository.obtenerPorMatriculaAsync(avion.matricula);
+            if (existente != null && existente.id_avion != avionEditar.id_avion) //Se valida que no sea otro avión al que estamos editando con la misma matricula
             {
                 throw new ReglaNegocioException("Error", "Ya existe una avión con la matrícula ingresada.");
-            }*/
+            }
 
             if (!int.TryParse(avion.anio, out int anio))
             {
@@ -55,8 +58,6 @@ namespace AerolineasWEB.BL
                 throw new ReglaNegocioException("Error", "El año no puede ser mayor al actual.");
             }
 
-            avion.matricula = avion.matricula.Trim().ToUpper();
-            avion.modelo = avion.modelo.Trim().ToUpper();
             //avion.anio = avion.anio.ToString();
 
             avionEditar.matricula = avion.matricula;
@@ -93,11 +94,14 @@ namespace AerolineasWEB.BL
 
         public async Task RegistrarAvionAsync(Avion avion)
         {
-            /*var existente = await _avionRepository.obtenerPorMatricula(avion.matricula);
+            avion.matricula = avion.matricula.Trim().ToUpper();
+            avion.modelo = avion.modelo.Trim().ToUpper();
+
+            var existente = await _avionRepository.obtenerPorMatriculaAsync(avion.matricula);
             if (existente != null)
             {
                 throw new ReglaNegocioException("Error", "Ya existe una avión con la matrícula ingresada.");
-            }*/
+            }
 
             if (!int.TryParse(avion.anio, out int anio))
             {
@@ -109,8 +113,6 @@ namespace AerolineasWEB.BL
                 throw new ReglaNegocioException("Error", "El año no puede ser mayor al actual.");
             }
 
-            avion.matricula = avion.matricula.Trim().ToUpper();
-            avion.modelo = avion.modelo.Trim().ToUpper();
             avion.estado = EstadoAvion.Activo;
 
             await _avionRepository.crearAsync(avion);
