@@ -34,7 +34,9 @@ namespace AerolineasWEB.Model
         public int id_propietario { get; set; }
 
         //Atributos para indicar la relación, no son parte de la entidad, sirven para hacer consultas tipo JOINS con EF
+        [ForeignKey("id_aerolinea")]
         public Aerolinea? aerolinea { get; set; } //Acepta valores null
+        [ForeignKey("id_propietario")]
         public Propietario? propietario { get; set; } //Acepta valores null
     }
 }
