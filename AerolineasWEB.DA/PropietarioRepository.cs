@@ -45,12 +45,12 @@ namespace AerolineasWEB.DA
 
         public async Task<Propietario> obtenerPorIdentificacionPropietarioAsync(string identificacion)
         {
-            return await _context.Propietario.FirstOrDefaultAsync(p => p.identificacion == identificacion);
+            return await _context.Propietario.FirstOrDefaultAsync(p => p.identificacion == identificacion && p.estado == EstadoPropietario.Activo);
         }
 
         public async Task<IEnumerable<Propietario>> obtenerPorNombreAsync(string nombre)
         {
-            return await _context.Propietario.Where(p => p.nombre.Contains(nombre)).ToListAsync();
+            return await _context.Propietario.Where(p => p.nombre.Contains(nombre) && p.estado == EstadoPropietario.Activo).ToListAsync();
         }
 
         public async Task<IEnumerable<Propietario>> obtenerPropietariosActivosAsync()

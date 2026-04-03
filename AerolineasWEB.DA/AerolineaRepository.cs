@@ -43,7 +43,7 @@ namespace AerolineasWEB.DA
 
         public async Task<Aerolinea> obtenerPorIataAsync(string codigo_iata)
         {
-            return await _context.Aerolinea.FirstOrDefaultAsync(a => a.codigo_iata == codigo_iata);
+            return await _context.Aerolinea.FirstOrDefaultAsync(a => a.codigo_iata == codigo_iata && a.estado == EstadoAerolinea.Activo);
         }
 
         public async Task<Aerolinea> obtenerPorIdAsync(int id)
@@ -53,12 +53,12 @@ namespace AerolineasWEB.DA
 
         public async Task<IEnumerable<Aerolinea>> obtenerPorNombreAsync(string nombre)
         {
-            return await _context.Aerolinea.Where(a => a.nombre.Contains(nombre)).ToListAsync();
+            return await _context.Aerolinea.Where(a => a.nombre.Contains(nombre) && a.estado == EstadoAerolinea.Activo).ToListAsync();
         }
 
         public async Task<Aerolinea> obtenerPorTelefonoAsync(string telefono)
         {
-            throw new NotImplementedException();
+            return await _context.Aerolinea.FirstOrDefaultAsync(a => a.telefono == telefono && a.estado == EstadoAerolinea.Activo);
         }
     }
 }
