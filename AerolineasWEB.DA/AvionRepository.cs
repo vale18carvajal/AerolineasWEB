@@ -38,7 +38,12 @@ namespace AerolineasWEB.DA
 
         public async Task<IEnumerable<Avion>> obtenerAvionesActivosAsync()
         {
-            return await _context.Avion.Where(a => a.estado == EstadoAvion.Activo).ToArrayAsync();
+            //return await _context.Avion.Where(a => a.estado == EstadoAvion.Activo).ToArrayAsync();
+            return await _context.Avion
+            .Include(a => a.aerolinea)
+            .Include(a => a.propietario)
+            .Where(a => a.estado == EstadoAvion.Activo)
+            .ToListAsync();
         }
 
         public async Task<Avion> obtenerPorIdAsync(int id)
