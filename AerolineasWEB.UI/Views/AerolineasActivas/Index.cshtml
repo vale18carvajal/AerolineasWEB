@@ -3,13 +3,13 @@
 @{
     ViewData["Title"] = "Inicio";
 }
-<div class="pt-3 pb-5 d-flex justify-content-between align-items-center">
+<div class="pt-3 pb-5 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
     <div class="titulos d-flex flex-column ">
         <h1 class="text-primary"><i class="fa-duotone fa-solid fa-building me-1"></i>Aerolíneas</h1>
         <h4 class="text-secondary ms-2">Gestión de la información de Aerolíneas</h4>
     </div>
     <p class="d-flex justify-content-end align-items-center">
-        <a class="btn btn-primary" role="button" asp-action="Create"><i class="fa-solid fa-plus me-1"></i>Añadir Aerolínea</a>
+        <a class="btn btn-primary d-block w-100" role="button" asp-action="Create"><i class="fa-solid fa-plus me-1"></i>Añadir Aerolínea</a>
     </p>
 </div>
 
@@ -38,7 +38,7 @@
         </div>
         
         <div class="col-md-1 col-sm-12 mt-2">
-            <input type="submit" value="Buscar" class="btn btn-primary" />
+            <input type="submit" value="Buscar" class="btn btn-primary d-block w-100" />
         </div>
         @if (ViewBag.Filtro == true)
         {

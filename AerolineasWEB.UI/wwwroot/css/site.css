@@ -180,3 +180,6 @@ table.dataTable {
 .dataTables_paginate {
     margin-right: 20px !important;
 }
+.dataTables_wrapper {
+    overflow-x: auto;
+}
