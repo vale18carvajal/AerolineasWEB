@@ -26,6 +26,18 @@ builder.Services.AddScoped<AerolineasWEB.BL.IAdministradorAerolinea, AerolineasW
 builder.Services.AddScoped<AerolineasWEB.BL.IAdministradorAvion, AerolineasWEB.BL.AdministradorAvion>();
 builder.Services.AddScoped<AerolineasWEB.BL.IAdministradorPropietario, AerolineasWEB.BL.AdministradorPropietario>();
 
+//Desarrollo
+/*builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirFrontend",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7130")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});*/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,6 +48,8 @@ var app = builder.Build();
 //}
 
 app.UseHttpsRedirection();
+
+//app.UseCors("PermitirFrontend"); //Desarrollo
 
 app.UseAuthorization();
 

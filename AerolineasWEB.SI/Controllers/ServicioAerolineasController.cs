@@ -1,6 +1,7 @@
 ﻿using AerolineasWEB.BL;
 using AerolineasWEB.Model;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AerolineasWEB.SI.Controllers
 {
@@ -36,15 +37,21 @@ namespace AerolineasWEB.SI.Controllers
             return Ok(aerolinea);
         }
         [HttpGet("ObtenerAerolineaPorIata")]
-        public async Task<ActionResult<Aerolinea>> obtenerAerolineaPorIata(string codigo_iata)
+        public async Task<ActionResult<IEnumerable<Aerolinea>>> obtenerAerolineaPorIata(string codigo_iata)
         {
-            var aerolinea = await _admin.ObtenerPorIataAsync(codigo_iata);
+            var lista = await _admin.ObtenerPorIataAsync(codigo_iata);
+            return Ok(lista);
+        }
+        [HttpGet("ObtenerAerolineaPorIataExacto")]
+        public async Task<ActionResult<Aerolinea>> obtenerAerolineaPorIataExacto(string codigo_iata)
+        {
+            var aerolinea = await _admin.ObtenerPorIataExactoAsync(codigo_iata);
             if (aerolinea == null)
             {
                 return NotFound(new ProblemDetails
                 {
                     Title = "No encontrado",
-                    Detail = "No existe aerolínea con el código IATA especificado.",
+                    Detail = "La aerolínea no existe.",
                     Status = 404
                 });
             }
@@ -59,40 +66,74 @@ namespace AerolineasWEB.SI.Controllers
         }
 
         [HttpGet("ObtenerAerolineaPorTelefono")]
-        public async Task<ActionResult<Aerolinea>> obtenerAerolineaPorTelefono(string telefono)
+        public async Task<ActionResult<IEnumerable<Aerolinea>>> obtenerAerolineaPorTelefono(string telefono)
         {
-            var aerolinea = await _admin.ObtenerPorTelefonoAsync(telefono);
-            if (aerolinea == null)
-            {
-                return NotFound(new ProblemDetails
-                {
-                    Title = "No encontrado",
-                    Detail = "No existe aerolínea con el télefono especificado.",
-                    Status = 404
-                });
-            }
-            return Ok(aerolinea);
+            var lista = await _admin.ObtenerPorTelefonoAsync(telefono);
+            return Ok(lista);
         }
 
         [HttpPost("AgregarAerolinea")]
         public async Task<IActionResult> AgregarAerolinea([FromBody] Aerolinea aerolinea)
         {
-            await _admin.RegistrarAerolineaAsync(aerolinea);
-            return Ok();
+            //await _admin.RegistrarAerolineaAsync(aerolinea);
+            //return Ok();
+            try
+            {
+                await _admin.RegistrarAerolineaAsync(aerolinea);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
         [HttpPut("EditarAerolinea")]
         public async Task<IActionResult> EditarAerolinea([FromBody] Aerolinea aerolinea)
         {
-            await _admin.EditarAerolineaAsync(aerolinea);
-            return Ok();
+            //await _admin.EditarAerolineaAsync(aerolinea);
+            //return Ok();
+            try
+            {
+                await _admin.EditarAerolineaAsync(aerolinea);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
         [HttpPut("EliminarAerolinea")]
         public async Task<IActionResult> EliminarAerolinea(int id)
         {
-            await _admin.DesactivarAerolineaAsync(id);
-            return Ok();
+            //await _admin.DesactivarAerolineaAsync(id);
+            //return Ok();
+
+            try
+            {
+                await _admin.DesactivarAerolineaAsync(id);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
     }
 }

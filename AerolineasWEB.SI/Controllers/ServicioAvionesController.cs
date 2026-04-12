@@ -1,6 +1,7 @@
 ﻿using AerolineasWEB.BL;
 using AerolineasWEB.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AerolineasWEB.SI.Controllers
 {
@@ -55,23 +56,65 @@ namespace AerolineasWEB.SI.Controllers
         [HttpPost("AgregarAvion")]
         public async Task<IActionResult> AgregarAvion([FromBody] Avion avion)
         {
-            await _admin.RegistrarAvionAsync(avion);
-            return Ok();
+            //await _admin.RegistrarAvionAsync(avion);
+            //return Ok();
+            try
+            {
+                await _admin.RegistrarAvionAsync(avion);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
         [HttpPut("EditarAvion")]
         public async Task<IActionResult> EditarAvion([FromBody] Avion avion)
         {
-            await _admin.EditarAvionAsync(avion);
-            return Ok();
+            //await _admin.EditarAvionAsync(avion);
+            //return Ok();
+            try
+            {
+                await _admin.EditarAvionAsync(avion);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
 
         [HttpPut("EliminarAvion")]
         public async Task<IActionResult> EliminarAvion(int id)
         {
-            await _admin.DesactivarAvionAsync(id);
-            return Ok();
+            //await _admin.DesactivarAvionAsync(id);
+            //return Ok();
+            try
+            {
+                await _admin.DesactivarAvionAsync(id);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
     }
 }

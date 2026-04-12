@@ -1,6 +1,7 @@
 ﻿using AerolineasWEB.BL;
 using AerolineasWEB.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AerolineasWEB.SI.Controllers
 {
@@ -38,9 +39,16 @@ namespace AerolineasWEB.SI.Controllers
         }
 
         [HttpGet("ObtenerPropietarioPorIdentificacion")]
-        public async Task<ActionResult<Propietario>> obtenerPropietarioPorIdentificacion(string identificacion)
+        public async Task<ActionResult<IEnumerable<Propietario>>> obtenerPropietarioPorIdentificacion(string identificacion)
         {
-            var propietario = await _admin.ObtenerPorIdentificacionAsync(identificacion);
+            var lista = await _admin.ObtenerPorIdentificacionAsync(identificacion);
+            return Ok(lista);
+        }
+
+        [HttpGet("ObtenerPropietarioPorIdentificacionExacta")]
+        public async Task<ActionResult<Propietario>> obtenerPropietarioPorIdentificacionExacta(string identificacion)
+        {
+            var propietario = await _admin.ObtenerPorIdentificacionExactaAsync(identificacion);
             if (propietario == null)
             {
                 return NotFound(new ProblemDetails
@@ -63,22 +71,64 @@ namespace AerolineasWEB.SI.Controllers
         [HttpPost("AgregarPropietario")]
         public async Task<IActionResult> AgregarPropietario([FromBody] Propietario propietario)
         {
-            await _admin.RegistrarPropietarioAsync(propietario);
-            return Ok();
+            //await _admin.RegistrarPropietarioAsync(propietario);
+            //return Ok();
+            try
+            {
+                await _admin.RegistrarPropietarioAsync(propietario);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
         [HttpPut("EditarPropietario")]
         public async Task<IActionResult> EditarPropietario([FromBody] Propietario propietario)
         {
-            await _admin.EditarPropietarioAsync(propietario);
-            return Ok();
+            //await _admin.EditarPropietarioAsync(propietario);
+            //return Ok();
+            try
+            {
+                await _admin.EditarPropietarioAsync(propietario);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
         [HttpPut("EliminarPropietario")]
         public async Task<IActionResult> EliminarPropietario(int id)
         {
-            await _admin.DesactivarPropietarioAsync(id);
-            return Ok();
+            //await _admin.DesactivarPropietarioAsync(id);
+            //return Ok();
+            try
+            {
+                await _admin.DesactivarPropietarioAsync(id);
+                return Ok();
+            }
+            catch (ReglaNegocioException ex)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = ex.Codigo,
+                    Detail = ex.Message,
+                    Status = 400
+                });
+            }
         }
 
     }
