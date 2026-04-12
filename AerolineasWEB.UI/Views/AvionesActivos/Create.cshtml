@@ -1,0 +1,121 @@
+﻿@* @model AerolineasWEB.Model.Avion *@
+@model AvionFormViewModel
+
+@{
+    ViewData["Title"] = "Agregar";
+}
+
+<div class="d-flex align-items-center">
+    @* <div>
+        <a asp-action="Index"><i class="fa-solid fa-arrow-left text-primary fs-2 me-3"></i></a>
+    </div> *@
+    <div>
+        <h1 class="text-primary">Añadir</h1>
+        <h4 class="text-secondary">Avión</h4>
+    </div>
+</div>
+<div class="container-xl bg-white rounded custom-shadow p-5">
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning alert-animada" role="alert">
+            <div class="alert-icon">
+                <!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="icon alert-icon icon-2">
+                    <path d="M12 9v4" />
+                    <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
+                    <path d="M12 16h.01" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="alert-heading">Hubo un problema al almacenar el avión:</h4>
+                <div class="alert-description">
+                    @ViewBag.Error
+                </div>
+            </div>
+        </div>
+    }
+    <form asp-action="Create">
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="matricula" class="control-label mb-2 mt-2 fw-bold">Matrícula *</label>
+                <input asp-for="matricula" class="form-control" placeholder="Ej. N737AV" />
+                <span asp-validation-for="matricula" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="modelo" class="control-label mb-2 mt-2 fw-bold">Modelo *</label>
+                <input asp-for="modelo" class="form-control" placeholder="Ej. Boeing 737-800" />
+                <span asp-validation-for="modelo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="fabricante" class="control-label mb-2 mt-2 fw-bold">Fabricante *</label>
+                <input asp-for="fabricante" class="form-control" placeholder="Ej. Boeing" />
+                <span asp-validation-for="fabricante" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="cantidad_pasajeros" class="control-label mb-2 mt-2 fw-bold">Capacidad de Pasajeros *</label>
+                <input asp-for="cantidad_pasajeros" type="number" class="form-control" placeholder="Ej. 189" />
+                <span asp-validation-for="cantidad_pasajeros" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="anio" class="control-label mb-2 mt-2 fw-bold">Año *</label>
+                <input asp-for="anio" type="number" class="form-control" placeholder="Ej. 2022" />
+                <span asp-validation-for="anio" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="id_aerolinea" class="control-label mb-2 mt-2 fw-bold">Aerolínea *</label>
+                @* <input asp-for="id_aerolinea" class="form-control" /> *@
+                @* <select asp-for="id_aerolinea" asp-items="Model.Aerolineas" class="form-select">
+                    <option value="">Seleccione una aerolínea</option>
+                </select> *@
+                <select id="aerolineaSelect" name="id_aerolinea" class="form-select">
+                    <option value="">Seleccione una Aerolínea</option>
+
+                    @foreach (var p in Model.Aerolineas)
+                    {
+                        <option value="@p.id_aerolinea"
+                                data-pais="@p.pais">
+                            @p.nombre
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="id_aerolinea" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="id_propietario" class="control-label mb-2 mt-2 fw-bold">Propietario *</label>
+                @* <select asp-for="id_propietario" id="propietarioSelect" asp-items="Model.Propietarios" class="form-select">
+                    <option value="">Seleccione un propietario</option>
+                </select> *@
+                <select id="propietarioSelect" name="id_propietario" class="form-select">
+                    <option value="">Seleccione un propietario</option>
+
+                    @foreach (var p in Model.Propietarios)
+                    {
+                        <option value="@p.id_propietario"
+                                data-tipo="@p.tipo"
+                                data-pais="@p.pais">
+                            @p.nombre
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="id_propietario" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-end gap-3 border-top mt-5 pt-5">
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            <input type="submit" value="Guardar Avión" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

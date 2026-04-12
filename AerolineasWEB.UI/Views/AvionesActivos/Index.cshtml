@@ -1,0 +1,200 @@
+﻿@model IEnumerable<AerolineasWEB.Model.Avion>
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="pt-3 pb-5 d-flex justify-content-between align-items-center">
+    <div class="titulos d-flex flex-column ">
+        <h1 class="text-primary"><i class="fa-solid fa-plane-departure me-2"></i>Aviones</h1>
+        <h4 class="text-secondary ms-2">Gestión de la información de los Aviones</h4>
+    </div>
+    <p class="d-flex justify-content-end align-items-center">
+        <a class="btn btn-primary" role="button" asp-action="Create"><i class="fa-solid fa-plus me-1"></i>Añadir Avión</a>
+    </p>
+</div>
+
+<form id="busquedas" class="bg-white border rounded p-3 g-2 mb-5">
+    <div class="row">
+        <div class="col-md-3 col-sm-12 mt-2">
+            <select class="form-select" id="tipo_busqueda" name="tipo_busqueda">
+                <option value="nombre_aerolinea" selected="@(ViewBag.BusquedaTipo == "nombre_aerolinea")">Buscar por nombre de Aerolínea</option>
+                <option value="nombre_propietario" selected="@(ViewBag.BusquedaTipo == "nombre_propietario")">Buscar por nombre Propietario</option>
+            </select>
+        </div>
+        <div class="col-md-8 col-sm-12 mt-2">
+            <div class="input-icon mb-3">
+                <span class="input-icon-addon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                         fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="10" cy="10" r="7" />
+                        <line x1="21" y1="21" x2="15" y2="15" />
+                    </svg>
+                </span>
+                <input type="text" value="@ViewBag.Valor" id="valor" name="valor" class="form-control" placeholder="Buscar Avión" />
+            </div>
+        </div>
+        <div class="col-md-1 col-sm-12 mt-2">
+            <input type="submit" value="Buscar" class="btn btn-primary d-block w-100" />
+        </div>
+        @if (ViewBag.Filtro == true)
+        {
+            <a asp-action="Index" class="text-primary ms-1 fw-normal text-decoration-none">
+                <i class="fa-solid fa-filter-circle-xmark"></i> Quitar Filtro
+            </a>
+        }
+    </div>
+</form>
+@if (TempData["Error"] != null && TempData["FromDelete"] != null)
+{
+    <div class="alert alert-danger alert-animada" role="alert">
+        <div class="alert-icon">
+            <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 class="icon alert-icon icon-2">
+                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                <path d="M12 8v4" />
+                <path d="M12 16h.01" />
+            </svg>
+        </div>
+        <div>
+            <h4 class="alert-heading">Hubo un problema al eliminar el avión:</h4>
+            <div class="alert-description">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (TempData["Success"] != null && TempData["FromSuccess"] != null)
+{
+    <div class="alert alert-success alert-animada" role="alert">
+        <div class="alert-icon">
+            <!-- Download SVG icon from http://tabler.io/icons/icon/check -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 class="icon alert-icon icon-2">
+                <path d="M5 12l5 5l10 -10" />
+            </svg>
+        </div>
+        <div>
+            <h4 class="alert-heading">Se ha eliminado el registro.</h4>
+            <div class="alert-description">
+                @TempData["Success"]
+            </div>
+        </div>
+    </div>
+
+}
+<div class="table-responsive bg-white border rounded overflow-hidden custom-shadow">
+    <table class="table  table-vcenter">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Matrícula
+                </th>
+                <th>
+                    Modelo
+                </th>
+                <th>
+                    Fabricante
+                </th>
+                <th>
+                   Estado
+                </th>
+                <th>
+                    Aerolínea
+                </th>
+                <th>
+                    Propietario
+                </th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+     @{
+         bool hayDatos = false;
+     }
+    @foreach (var item in Model) {
+        hayDatos = true;
+            <tr>
+                <td class="fw-bold">
+                    @Html.DisplayFor(modelItem => item.id_avion)
+                </td>
+                <td>
+                        <div class="d-flex align-items-center gap-2 fw-bold">
+                            <div class="text-center bg-blue-lt p-3 rounded-circle text-primary">
+                                <i class="fa-solid fa-plane fs-2"></i>
+                            </div>
+                            <div>
+                                @Html.DisplayFor(modelItem => item.matricula)
+                                <br />
+                                <span class="small text-secondary fw-normal">
+                                    Año @Html.DisplayFor(modelItem => item.anio)
+                                </span>
+                            </div>
+                        </div>
+                    
+                </td>
+                <td>
+                    <div>
+                            @Html.DisplayFor(modelItem => item.modelo)
+                        <br />
+                        <span class="small text-secondary fw-normal">
+                           @Html.DisplayFor(modelItem => item.cantidad_pasajeros) pasajeros
+                        </span>
+                    </div>
+                </td>
+                <td class="text-uppercase">
+                    @Html.DisplayFor(modelItem => item.fabricante)
+                </td>
+                <td>
+                    <span class="badge bg-green-lt text-green-lt-fg text-uppercase rounded">
+                        @Html.DisplayFor(modelItem => item.estado)
+                    </span>
+                </td>
+                <td class="text-uppercase">
+                    @Html.DisplayFor(modelItem => item.aerolinea.nombre)
+                </td>
+                <td class="text-uppercase">
+                    @Html.DisplayFor(modelItem => item.propietario.nombre)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id_avion">
+                        <i class="fa-solid fa-pen me-2 text-primary btn-animation fs-2"></i>
+                    </a>
+                    <form id="frm_del_avion" asp-controller="AvionesActivos" asp-action="Delete" method="post" class="d-inline-block">
+                        <input type="hidden" name="id" value="@item.id_avion" />
+                        <button type="submit" class="bg-transparent m-0 p-0 border-0 btn-animation"><i class="fa-solid fa-trash text-danger fs-2"></i></button>
+                    </form>
+                </td>
+            </tr>
+    }
+    @if (!hayDatos)
+    {
+        <tr>
+            <td colspan="8" class="text-center py-5">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    
+                    <i class="fa-regular fa-face-frown text-muted" style="font-size: 50px;"></i>
+                
+                    <span class="mt-3 fs-4 text-secondary">
+                        No hay información para mostrar
+                    </span>
+
+                </div>
+            </td>
+        </tr>
+    }
+        </tbody>
+    </table>
+</div>

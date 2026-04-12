@@ -1,0 +1,88 @@
+﻿@model AerolineasWEB.Model.Aerolinea
+
+@{
+    ViewData["Title"] = "Agregar";
+}
+<div class="d-flex align-items-center">
+    @* <div>
+        <a asp-action="Index"><i class="fa-solid fa-arrow-left text-primary fs-2 me-3"></i></a>
+    </div> *@
+    <div>
+        <h1 class="text-primary">Añadir</h1>
+        <h4 class="text-secondary">Aerolinea</h4>
+    </div>
+</div>
+
+<div class="container-xl bg-white rounded custom-shadow p-5">
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning alert-animada" role="alert">
+            <div class="alert-icon">
+                <!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="icon alert-icon icon-2">
+                    <path d="M12 9v4" />
+                    <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
+                    <path d="M12 16h.01" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="alert-heading">Hubo un problema al almacenar la aerolínea:</h4>
+                <div class="alert-description">
+                    @ViewBag.Error
+                </div>
+            </div>
+        </div>
+        @* <div class="alert alert-danger">
+            @ViewBag.Error
+        </div> *@
+    }
+    <form asp-action="Create" id="formulario_aerolinea">
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="nombre" class="control-label mb-2 mt-2 fw-bold">Nombre *</label>
+                <input asp-for="nombre" class="form-control" placeholder="Ej. Avianca"/>
+                <span asp-validation-for="nombre" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="codigo_iata" class="control-label mb-2 mt-2 fw-bold">Código IATA *</label>
+                <input asp-for="codigo_iata" class="form-control" placeholder="Ej. AV-001" />
+                <span asp-validation-for="codigo_iata" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="pais" class="control-label mb-2 mt-2 fw-bold">País *</label>
+                <input asp-for="pais" class="form-control" placeholder="Ej. Costa Rica" />
+                <span asp-validation-for="pais" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="fecha_fundacion" class="control-label mb-2 mt-2 fw-bold">Fecha de Fundación *</label>
+                <input asp-for="fecha_fundacion" type="date" class="form-control" />
+                <span asp-validation-for="fecha_fundacion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="telefono" class="control-label mb-2 mt-2 fw-bold">Teléfono *</label>
+                @* <input asp-for="telefono" class="form-control" placeholder="Ej: +506 2223 2425"/> *@
+                <input asp-for="telefono" type="text" class="form-control"
+                       data-mask="(000) 0000-0000" data-mask-visible="true"
+                       placeholder="(000) 0000-0000" autocomplete="off" />
+                @* <span asp-validation-for="telefono" id="telefono-error" class="text-danger"></span> *@
+                <span id="telefono-error" class="text-danger"></span>
+
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-end gap-3 border-top mt-5 pt-5">
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            <input type="submit" value="Guardar Aerolínea" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

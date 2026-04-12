@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Página de Inicio";
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+<div class="containter-lg">
+    <div class="text-center row">
+        <div class="col-12">
+            <img src="~/img/LOGO-TRANSPARENT.png" alt="Logo" width="150" />
+        </div>
+        <h1 class="mt-4">Bienvenido a <span class="text-primary">AIRELYS</span></h1>
+        <p class="fs-3 mt-4">Sistema integral de gestión de aerolíneas que te permite administrar información de aerolíneas, aviones y propietarios de manera eficiente y organizada.</p>
+        <div class="row g-4">
+
+            <!-- Aerolíneas -->
+            <div class="col-md-4">
+                <a asp-controller="AerolineasActivas" asp-action="Index" class="card azure card-link card-hover text-center p-4">
+                    <div class="icon-circle bg-azure-lt mb-3">
+                        <i class="fa-solid fa-city"></i>
+                    </div>
+                    <h3 class="card-title">Aerolíneas</h3>
+                    <p class="text-secondary">
+                        Gestiona información de aerolíneas, códigos IATA y datos de contacto
+                    </p>
+                    <span class="link-azure fw-semibold text-blue-lt-fg">
+                        Ver aerolíneas →
+                    </span>
+                </a>
+            </div>
+
+            <!-- Aviones -->
+            <div class="col-md-4">
+                <a asp-controller="AvionesActivos" asp-action="Index" class="card cyan card-link card-hover text-center p-4 ">
+                    <div class="icon-circle bg-cyan-lt mb-3">
+                        <i class="fa-solid fa-plane-up"></i>
+                    </div>
+                    <h3 class="card-title">Aviones</h3>
+                    <p class="text-secondary">
+                        Administra la flota de aviones, matrículas, modelos y capacidades
+                    </p>
+                    <span class="link-cyan fw-semibold">
+                        Ver aviones →
+                    </span>
+                </a>
+            </div>
+
+            <!-- Propietarios -->
+            <div class="col-md-4">
+                <a asp-controller="PropietariosActivos" asp-action="Index" class="card purple card-link card-hover text-center p-4">
+                    <div class="icon-circle bg-purple-lt mb-3">
+                        <i class="fa-solid fa-people-group"></i>
+                    </div>
+                    <h3 class="card-title">Propietarios</h3>
+                    <p class="text-secondary">
+                        Controla la información de propietarios, empresas y personas
+                    </p>
+                    <span class="link-purple fw-semibold">
+                        Ver propietarios →
+                    </span>
+                </a>
+            </div>
+
+        </div>
+        <div class="text-center text-secondary mt-5 p-5 border-top">
+            Desarrollado por <span class="fw-bold">Valeria Carvajal M.</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+﻿@model AerolineasWEB.Model.Propietario
+
+@{
+    ViewData["Title"] = "Editar";
+}
+<div class="d-flex align-items-center">
+    @* <div>
+        <a asp-action="Index"><i class="fa-solid fa-arrow-left text-primary fs-2 me-3"></i></a>
+    </div> *@
+    <div>
+        <h1 class="text-primary">Editar</h1>
+        <h4 class="text-secondary">Propietario</h4>
+    </div>
+</div>
+<div class="container-xl bg-white rounded custom-shadow p-5">
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning alert-animada" role="alert">
+            <div class="alert-icon">
+                <!-- Download SVG icon from http://tabler.io/icons/icon/alert-triangle -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     class="icon alert-icon icon-2">
+                    <path d="M12 9v4" />
+                    <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
+                    <path d="M12 16h.01" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="alert-heading">Hubo un problema al almacenar al propietario:</h4>
+                <div class="alert-description">
+                    @ViewBag.Error
+                </div>
+            </div>
+        </div>
+        @* <div class="alert alert-danger">
+            @ViewBag.Error
+        </div> *@
+    }
+    <form asp-action="Edit" id="formulario_propietario">
+        <input asp-for="id_propietario" type="hidden"/>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="nombre" class="control-label mb-2 mt-2 fw-bold">Nombre *</label>
+                <input asp-for="nombre" class="form-control" placeholder="Ej. Carlos Mendoza" />
+                <span asp-validation-for="nombre" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="identificacion" class="control-label mb-2 mt-2 fw-bold">Identificación *</label>
+                <input asp-for="identificacion" class="form-control" placeholder="Ej. DNI-45678912" />
+                <span asp-validation-for="identificacion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="tipo" class="control-label mb-2 mt-2 fw-bold">Tipo *</label>
+               @*  <input asp-for="tipo" class="form-control" />  *@
+                 <select asp-for="tipo" class="form-select">
+                    <option value="">Seleccione un tipo de propietario</option>
+                    <option value="Persona" selected="@(Model.tipo == AerolineasWEB.Model.TipoPropietario.Persona)">Persona</option>
+                    <option value="Empresa" selected="@(ViewBag.tipo == AerolineasWEB.Model.TipoPropietario.Empresa)">Empresa</option>
+                </select> 
+                <span asp-validation-for="tipo" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="pais" class="control-label mb-2 mt-2 fw-bold">País *</label>
+                <input asp-for="pais" class="form-control" placeholder="Ej. Costa Rica" />
+                <span asp-validation-for="pais" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row campo">
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="telefono" class="control-label mb-2 mt-2 fw-bold">Teléfono *</label>
+                @* <input asp-for="telefono" class="form-control" placeholder="Ej: +506 2223 2425" /> *@
+                @* <span asp-validation-for="telefono" class="text-danger"></span> *@
+                <input asp-for="telefono" type="text" class="form-control"
+                       data-mask="(000) 0000-0000" data-mask-visible="true"
+                       placeholder="(000) 0000-0000" autocomplete="off" />
+                <span id="telefono-error" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 col-sm-12 form-group">
+                <label asp-for="correo" class="control-label mb-2 mt-2 fw-bold">Correo *</label>
+                <input asp-for="correo" class="form-control" type="email" placeholder="Ej: correo@correo.com" />
+                <span asp-validation-for="correo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-end gap-3 border-top mt-5 pt-5">
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            <input type="submit" value="Guardar Propietario" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
