@@ -57,12 +57,12 @@ namespace AerolineasWEB.DA
 
         public async Task<IEnumerable<Avion>> obtenerPorNombreAerolineaAsync(string nombreAerolinea)
         {
-            return await _context.Avion.Include(a => a.aerolinea).Where(a => a.aerolinea.nombre.Contains(nombreAerolinea) && a.estado == EstadoAvion.Activo).ToArrayAsync();
+            return await _context.Avion.Include(a => a.aerolinea).Include(a => a.propietario).Where(a => a.aerolinea.nombre.Contains(nombreAerolinea) && a.estado == EstadoAvion.Activo).ToArrayAsync();
         }
 
         public async Task<IEnumerable<Avion>> obtenerPorNombrePropietarioAsync(string nombrePropietario)
         {
-            return await _context.Avion.Include(a => a.aerolinea).Where(a => a.propietario.nombre.Contains(nombrePropietario) && a.estado == EstadoAvion.Activo).ToArrayAsync();
+            return await _context.Avion.Include(a => a.aerolinea).Include(a => a.propietario).Where(a => a.propietario.nombre.Contains(nombrePropietario) && a.estado == EstadoAvion.Activo).ToArrayAsync();
         }
         public async Task<bool> ExistenAvionesActivosPorAerolinea(int id_aerolinea){
             return await _context.Avion.AnyAsync(a => a.id_aerolinea == id_aerolinea && a.estado == EstadoAvion.Activo);

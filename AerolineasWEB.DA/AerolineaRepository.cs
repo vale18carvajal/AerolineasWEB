@@ -1,6 +1,7 @@
 ﻿using AerolineasWEB.BL;
 using AerolineasWEB.Model;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AerolineasWEB.DA
 {
@@ -41,9 +42,14 @@ namespace AerolineasWEB.DA
             return await _context.Aerolinea.Where(a => a.estado == EstadoAerolinea.Activo).ToListAsync();
         }
 
-        public async Task<Aerolinea> obtenerPorIataAsync(string codigo_iata)
+        public async Task<IEnumerable<Aerolinea>> obtenerPorIataAsync(string codigo_iata)
         {
-            return await _context.Aerolinea.FirstOrDefaultAsync(a => a.codigo_iata == codigo_iata && a.estado == EstadoAerolinea.Activo);
+            //return await _context.Aerolinea.FirstOrDefaultAsync(a => a.codigo_iata == codigo_iata && a.estado == EstadoAerolinea.Activo);
+            return await _context.Aerolinea.Where(a => a.codigo_iata.Contains(codigo_iata) && a.estado == EstadoAerolinea.Activo).ToListAsync();
+        }
+        public async Task<Aerolinea> obtenerPorIataExactoAsync(string codigo_iata)
+        {
+            return await _context.Aerolinea.FirstOrDefaultAsync(a => a.codigo_iata == codigo_iata);
         }
 
         public async Task<Aerolinea> obtenerPorIdAsync(int id)
@@ -56,9 +62,10 @@ namespace AerolineasWEB.DA
             return await _context.Aerolinea.Where(a => a.nombre.Contains(nombre) && a.estado == EstadoAerolinea.Activo).ToListAsync();
         }
 
-        public async Task<Aerolinea> obtenerPorTelefonoAsync(string telefono)
+        public async Task<IEnumerable<Aerolinea>> obtenerPorTelefonoAsync(string telefono)
         {
-            return await _context.Aerolinea.FirstOrDefaultAsync(a => a.telefono == telefono && a.estado == EstadoAerolinea.Activo);
+            //return await _context.Aerolinea.FirstOrDefaultAsync(a => a.telefono == telefono && a.estado == EstadoAerolinea.Activo);
+            return await _context.Aerolinea.Where(a => a.telefono.Contains(telefono) && a.estado == EstadoAerolinea.Activo).ToListAsync();
         }
     }
 }

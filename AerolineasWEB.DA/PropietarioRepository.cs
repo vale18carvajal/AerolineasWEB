@@ -3,6 +3,7 @@
 using AerolineasWEB.BL;
 using AerolineasWEB.Model;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AerolineasWEB.DA
 {
@@ -43,9 +44,14 @@ namespace AerolineasWEB.DA
             return await _context.Propietario.FirstOrDefaultAsync(p => p.id_propietario == id);
         }
 
-        public async Task<Propietario> obtenerPorIdentificacionPropietarioAsync(string identificacion)
+        public async Task<IEnumerable<Propietario>> obtenerPorIdentificacionPropietarioAsync(string identificacion)
         {
-            return await _context.Propietario.FirstOrDefaultAsync(p => p.identificacion == identificacion && p.estado == EstadoPropietario.Activo);
+            //return await _context.Propietario.FirstOrDefaultAsync(p => p.identificacion == identificacion && p.estado == EstadoPropietario.Activo);
+            return await _context.Propietario.Where(p => p.identificacion.Contains(identificacion) && p.estado == EstadoPropietario.Activo).ToListAsync();
+        }
+        public async Task<Propietario> obtenerPorIdentificacionExactaPropietarioAsync(string identificacion)
+        {
+            return await _context.Propietario.FirstOrDefaultAsync(p => p.identificacion == identificacion);
         }
 
         public async Task<IEnumerable<Propietario>> obtenerPorNombreAsync(string nombre)
