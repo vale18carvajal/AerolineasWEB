@@ -1,12 +1,15 @@
 using AerolineasWEB.UI;
 
 var builder = WebApplication.CreateBuilder(args);
+//URL del API
+var AerolineasWebAPIBaseUrl = builder.Configuration.GetValue<string>("AerolineasWebAPI:BaseUrl");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("AerolineasWebAPI", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7235/");
+    //client.BaseAddress = new Uri("https://localhost:7235/");
+    client.BaseAddress = new Uri(AerolineasWebAPIBaseUrl);
 });
 builder.Services.AddScoped<ServicioAPI>();
 
