@@ -50,7 +50,7 @@ namespace AerolineasWEB.BL
                 throw new ReglaNegocioException("Error", "No se puede editar aerolíneas inactivas.");
             }
 
-            var existente = await _aerolineaRepository.obtenerPorIataAsync(aerolinea.codigo_iata);
+            var existente = await _aerolineaRepository.obtenerPorIataExactoAsync(aerolinea.codigo_iata);
             if (existente != null && existente.id_aerolinea != aerolineaEditar.id_aerolinea) //Se valida que no sea otra aerolínea a la que estamos editando con el mismo IATA
             {
                 throw new ReglaNegocioException("Error", "Ya existe una aerolínea con ese código IATA.");
@@ -84,9 +84,14 @@ namespace AerolineasWEB.BL
             return await _aerolineaRepository.obtenerAerolineasActivasAsync();
         }
 
-        public async Task<Aerolinea> ObtenerPorIataAsync(string codigo_iata)
+        public async Task<IEnumerable<Aerolinea>> ObtenerPorIataAsync(string codigo_iata)
         {
             return await _aerolineaRepository.obtenerPorIataAsync(codigo_iata);
+        }
+
+        public async Task<Aerolinea> ObtenerPorIataExactoAsync(string codigo_iata)
+        {
+            return await _aerolineaRepository.obtenerPorIataExactoAsync(codigo_iata);
         }
 
         public async Task<IEnumerable<Aerolinea>> ObtenerPorNombreAsync(string nombre)
@@ -94,7 +99,7 @@ namespace AerolineasWEB.BL
             return await _aerolineaRepository.obtenerPorNombreAsync(nombre);
         }
 
-        public async Task<Aerolinea> ObtenerPorTelefonoAsync(string telefono)
+        public async Task<IEnumerable<Aerolinea>> ObtenerPorTelefonoAsync(string telefono)
         {
             return await _aerolineaRepository.obtenerPorTelefonoAsync(telefono);
         }
@@ -104,7 +109,7 @@ namespace AerolineasWEB.BL
             aerolinea.nombre = aerolinea.nombre.Trim();
             aerolinea.codigo_iata = aerolinea.codigo_iata.Trim().ToUpper();
 
-            var existente = await _aerolineaRepository.obtenerPorIataAsync(aerolinea.codigo_iata);
+            var existente = await _aerolineaRepository.obtenerPorIataExactoAsync(aerolinea.codigo_iata);
             if (existente != null)
             {
                 throw new ReglaNegocioException("Error", "Ya existe una aerolínea con ese código IATA.");

@@ -8,7 +8,8 @@ namespace AerolineasWEB.BL
     {
         Task<IEnumerable<Propietario>> obtenerPropietariosActivosAsync();
         Task<Propietario> obtenerPorIdAsync(int id);
-        Task<Propietario> obtenerPorIdentificacionPropietarioAsync(string identificacion);
+        Task<IEnumerable<Propietario>> obtenerPorIdentificacionPropietarioAsync(string identificacion);
+        Task<Propietario> obtenerPorIdentificacionExactaPropietarioAsync(string identificacion);
         Task<IEnumerable<Propietario>> obtenerPorNombreAsync(string nombre);
         Task crearAsync(Propietario propietario);
         Task editarAsync(Propietario propietario);

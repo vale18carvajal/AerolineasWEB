@@ -47,7 +47,7 @@ namespace AerolineasWEB.BL
                 throw new ReglaNegocioException("Error", "No se pueden editar propietarios inactivos.");
             }
 
-            var existente = await _propietarioRepository.obtenerPorIdentificacionPropietarioAsync(propietario.identificacion);
+            var existente = await _propietarioRepository.obtenerPorIdentificacionExactaPropietarioAsync(propietario.identificacion);
             if (existente != null && existente.id_propietario != propietario.id_propietario)
             {
                 throw new ReglaNegocioException("Error", "Ya existe un propietario con la identificación ingresada.");
@@ -70,9 +70,13 @@ namespace AerolineasWEB.BL
             return await _propietarioRepository.obtenerPropietariosActivosAsync();
         }
 
-        public async Task<Propietario> ObtenerPorIdentificacionAsync(string identificacion)
+        public async Task<IEnumerable<Propietario>> ObtenerPorIdentificacionAsync(string identificacion)
         {
             return await _propietarioRepository.obtenerPorIdentificacionPropietarioAsync(identificacion);
+        }
+        public async Task<Propietario> ObtenerPorIdentificacionExactaAsync(string identificacion)
+        {
+            return await _propietarioRepository.obtenerPorIdentificacionExactaPropietarioAsync(identificacion);
         }
 
         public async Task<IEnumerable<Propietario>> ObtenerPorNombreAsync(string nombre)
@@ -87,7 +91,7 @@ namespace AerolineasWEB.BL
 
         public async Task RegistrarPropietarioAsync(Propietario propietario)
         {
-            var existente = await _propietarioRepository.obtenerPorIdentificacionPropietarioAsync(propietario.identificacion);
+            var existente = await _propietarioRepository.obtenerPorIdentificacionExactaPropietarioAsync(propietario.identificacion);
             if (existente != null)
             {
                 throw new ReglaNegocioException("Error", "Ya existe un propietario con la identificación ingresada.");
