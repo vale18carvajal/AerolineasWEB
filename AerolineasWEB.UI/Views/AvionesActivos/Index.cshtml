@@ -163,10 +163,15 @@
                     </span>
                 </td>
                 <td class="text-uppercase">
-                    @Html.DisplayFor(modelItem => item.aerolinea.nombre)
+                    <a asp-controller="AerolineasActivas" asp-action="Edit" asp-route-id="@item.id_aerolinea">
+                        @Html.DisplayFor(modelItem => item.aerolinea.nombre)
+                    </a>
+                    
                 </td>
                 <td class="text-uppercase">
-                    @Html.DisplayFor(modelItem => item.propietario.nombre)
+                    <a asp-controller="PropietariosActivos" asp-action="Edit" asp-route-id="@item.id_propietario">
+                        @Html.DisplayFor(modelItem => item.propietario.nombre)
+                    </a>
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.id_avion">
