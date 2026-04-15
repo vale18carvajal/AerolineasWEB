@@ -1,6 +1,7 @@
 ﻿using AerolineasWEB.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Drawing;
 
 namespace AerolineasWEB.UI.Controllers
@@ -76,6 +77,7 @@ namespace AerolineasWEB.UI.Controllers
             try
             {
                 var propietario = await servicioAPI.ObtenerPropietarioPorIdAsync(id);
+                if (propietario == null) { return RedirectToAction(nameof(Index)); }
                 return View(propietario);
             }
             catch

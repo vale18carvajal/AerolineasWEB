@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
+using System;
 using System.Threading.Tasks;
 
 namespace AerolineasWEB.UI.Controllers
@@ -87,6 +88,7 @@ namespace AerolineasWEB.UI.Controllers
             try
             {
                 var aerolinea = await servicioAPI.ObtenerAerolineaPorIdAsync(id);
+                if (aerolinea == null) { return RedirectToAction(nameof(Index)); }
                 return View(aerolinea);
             } catch
             {
